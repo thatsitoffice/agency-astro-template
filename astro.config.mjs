@@ -1,6 +1,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+// Site URL für Sitemap (muss gesetzt sein)
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://example.com';
+
 // https://astro.build/config
 export default defineConfig({
   output: 'static',
@@ -10,12 +13,15 @@ export default defineConfig({
     // Output-Verzeichnis für Cloudflare Pages
     assets: 'assets',
   },
-  site: import.meta.env.PUBLIC_SITE_URL || 'https://example.com',
+  site: siteUrl,
   integrations: [
     sitemap({
       // Sitemap wird automatisch generiert
       // Alle Seiten in /src/pages werden automatisch aufgenommen
       // Seiten mit noindex werden automatisch ausgeschlossen
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
     }),
   ],
 });
