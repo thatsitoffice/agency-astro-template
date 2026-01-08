@@ -15,13 +15,6 @@ export default defineConfig({
   },
   site: siteUrl,
   integrations: [
-    sitemap({
-      // Sitemap wird automatisch generiert
-      // Alle Seiten in /src/pages werden automatisch aufgenommen
-      // Seiten mit noindex werden automatisch ausgeschlossen
-      changefreq: 'weekly',
-      priority: 0.7,
-      lastmod: new Date(),
-    }),
+    sitemap(),
   ],
 });
