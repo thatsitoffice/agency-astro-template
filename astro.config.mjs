@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
+// Sitemap temporär deaktiviert wegen Build-Fehler
+// import sitemap from '@astrojs/sitemap';
 
-// Site URL für Sitemap (muss gesetzt sein)
+// Site URL (für später, wenn Sitemap wieder aktiviert wird)
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://example.com';
 
 // https://astro.build/config
@@ -15,6 +16,7 @@ export default defineConfig({
   },
   site: siteUrl,
   integrations: [
-    sitemap(),
+    // Sitemap temporär deaktiviert - wird später manuell erstellt
+    // sitemap(),
   ],
 });
