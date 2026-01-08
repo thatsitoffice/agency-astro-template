@@ -1,0 +1,177 @@
+---
+interface Testimonial {
+  quote: string;
+  author: string;
+  role?: string;
+  company?: string;
+}
+
+interface Logo {
+  name: string;
+  image?: string;
+}
+
+interface Props {
+  title?: string;
+  testimonials?: Testimonial[];
+  logos?: Logo[];
+}
+
+const {
+  title = 'Das sagen unsere Kunden',
+  testimonials = [],
+  logos = [],
+} = Astro.props;
+---
+
+<section class="proof section section-alt" aria-label="Beweis-Bereich">
+  <div class="container">
+    {title && (
+      <div class="section-header">
+        <h2>{title}</h2>
+      </div>
+    )}
+    
+    {testimonials.length > 0 && (
+      <div class="testimonials">
+        {testimonials.map((testimonial) => (
+          <blockquote class="testimonial">
+            <p class="testimonial-quote">"{testimonial.quote}"</p>
+            <footer class="testimonial-author">
+              <strong>{testimonial.author}</strong>
+              {testimonial.role && (
+                <>
+                  {testimonial.role}
+                  {testimonial.company && `, ${testimonial.company}`}
+                </>
+              )}
+            </footer>
+          </blockquote>
+        ))}
+      </div>
+    )}
+    
+    {logos.length > 0 && (
+      <div class="logos">
+        <h3 class="logos-title">Uns vertrauen</h3>
+        <div class="logos-grid">
+          {logos.map((logo) => (
+            <div class="logo-item">
+              {logo.image ? (
+                <img src={logo.image} alt={logo.name} loading="lazy" />
+              ) : (
+                <span>{logo.name}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-2xl);
+    margin-bottom: var(--spacing-4xl);
+  }
+
+  .testimonial {
+    padding: var(--spacing-2xl);
+    background-color: var(--color-bg);
+    border-radius: var(--border-radius-xl);
+    border-left: 4px solid var(--color-primary);
+    margin: 0;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    position: relative;
+  }
+
+  .testimonial::before {
+    content: '"';
+    position: absolute;
+    top: var(--spacing-lg);
+    left: var(--spacing-lg);
+    font-size: 4rem;
+    color: var(--color-primary);
+    opacity: 0.1;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  .testimonial:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .testimonial-quote {
+    font-size: var(--font-size-lg);
+    font-style: italic;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  .testimonial-author {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    position: relative;
+    z-index: 1;
+  }
+
+  .testimonial-author strong {
+    color: var(--color-text);
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 700;
+  }
+
+  .logos {
+    margin-top: var(--spacing-3xl);
+  }
+
+  .logos-title {
+    text-align: center;
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-xl);
+    color: var(--color-text-light);
+  }
+
+  .logos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-xl);
+    align-items: center;
+    opacity: 0.6;
+  }
+
+  .logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    filter: grayscale(100%);
+    transition: filter var(--transition-base);
+  }
+
+  .logo-item:hover {
+    filter: grayscale(0%);
+  }
+
+  .logo-item img {
+    max-width: 100%;
+    height: auto;
+    max-height: 60px;
+    object-fit: contain;
+  }
+
+  .logo-item span {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-light);
+  }
+</style>

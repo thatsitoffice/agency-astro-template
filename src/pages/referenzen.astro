@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHero from '../components/SectionHero.astro';
+import SectionCTA from '../components/SectionCTA.astro';
+import { site } from '../content/site';
+
+const pageTitle = 'Referenzen - ' + site.name;
+const pageDescription = 'Erfolgreiche Projekte und zufriedene Kunden. Hier finden Sie eine Auswahl unserer Referenzen.';
+
+// Beispiel-Referenzen (später durch CMS oder Content-Dateien ersetzen)
+interface Reference {
+  title: string;
+  client: string;
+  category: string;
+  description: string;
+  image?: string;
+  link?: string;
+}
+
+const references: Reference[] = [
+  {
+    title: 'Moderne Corporate Website',
+    client: 'Musterfirma GmbH',
+    category: 'Webdesign & Entwicklung',
+    description: 'Komplette Neugestaltung der Corporate Website mit Fokus auf Performance und SEO. Responsive Design für alle Geräte.',
+  },
+  {
+    title: 'E-Commerce Plattform',
+    client: 'Beispiel Shop AG',
+    category: 'E-Commerce',
+    description: 'Entwicklung einer modernen E-Commerce-Lösung mit optimiertem Checkout-Prozess und integriertem Payment-System.',
+  },
+  {
+    title: 'Branding & Website Relaunch',
+    client: 'Innovation Labs',
+    category: 'Branding & Design',
+    description: 'Komplettes Rebranding inklusive neuer Website. Von der Markenidentität bis zur technischen Umsetzung.',
+  },
+  {
+    title: 'SEO-Optimierung',
+    client: 'Service Provider',
+    category: 'SEO & Performance',
+    description: 'Umfassende SEO-Optimierung mit Fokus auf lokale Suchergebnisse. Deutliche Verbesserung der Rankings.',
+  },
+];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath="/referenzen"
+>
+  <SectionHero
+    title="Unsere Referenzen"
+    subtitle="Erfolgreiche Projekte und zufriedene Kunden – hier finden Sie eine Auswahl unserer Arbeit."
+  />
+
+  <section class="section" aria-label="Referenzen">
+    <div class="container">
+      <div class="references-grid">
+        {references.map((ref) => (
+          <article class="reference-card">
+            {ref.image && (
+              <div class="reference-image">
+                <img src={ref.image} alt={ref.title} loading="lazy" />
+              </div>
+            )}
+            <div class="reference-content">
+              <span class="reference-category">{ref.category}</span>
+              <h3>{ref.title}</h3>
+              <p class="reference-client">{ref.client}</p>
+              <p class="reference-description">{ref.description}</p>
+              {ref.link && (
+                <a href={ref.link} class="reference-link" target="_blank" rel="noopener noreferrer">
+                  Projekt ansehen →
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <SectionCTA
+    title="Haben Sie ein Projekt im Kopf?"
+    subtitle="Lassen Sie uns gemeinsam Ihre Idee verwirklichen."
+  />
+</BaseLayout>
+
+<style>
+  .references-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-3xl);
+  }
+
+  .reference-card {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .reference-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .reference-image {
+    width: 100%;
+    height: 200px;
+    background-color: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .reference-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .reference-content {
+    padding: var(--spacing-lg);
+  }
+
+  .reference-category {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .reference-content h3 {
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-xl);
+  }
+
+  .reference-client {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .reference-description {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .reference-link {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
+  .reference-link:hover {
+    text-decoration: underline;
+  }
+</style>

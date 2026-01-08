@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../content/site';
+
+const pageTitle = 'Impressum - ' + site.name;
+const pageDescription = 'Impressum und rechtliche Angaben.';
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath="/impressum"
+  noindex={true}
+>
+  <section class="section legal-page">
+    <div class="container">
+      <div class="legal-content">
+        <h1>Impressum</h1>
+        
+        <h2>Angaben gemäß § 5 TMG</h2>
+        <address>
+          {site.organization.legalName || site.organization.name}<br />
+          {site.organization.address?.street}<br />
+          {site.organization.address?.postalCode} {site.organization.address?.city}<br />
+          {site.organization.address?.country}
+        </address>
+
+        <h2>Kontakt</h2>
+        {site.organization.contact && (
+          <address>
+            {site.organization.contact.email && (
+              <>
+                E-Mail: <a href={`mailto:${site.organization.contact.email}`}>{site.organization.contact.email}</a><br />
+              </>
+            )}
+            {site.organization.contact.phone && (
+              <>
+                Telefon: <a href={`tel:${site.organization.contact.phone}`}>{site.organization.contact.phone}</a><br />
+              </>
+            )}
+          </address>
+        )}
+
+        <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+        <address>
+          {site.organization.legalName || site.organization.name}<br />
+          {site.organization.address?.street}<br />
+          {site.organization.address?.postalCode} {site.organization.address?.city}<br />
+          {site.organization.address?.country}
+        </address>
+
+        <h2>Haftungsausschluss</h2>
+        
+        <h3>Haftung für Inhalte</h3>
+        <p>
+          Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den 
+          allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht 
+          verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu 
+          forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+        </p>
+
+        <h3>Haftung für Links</h3>
+        <p>
+          Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. 
+          Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.
+        </p>
+
+        <h3>Urheberrecht</h3>
+        <p>
+          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen 
+          Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der 
+          Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+        </p>
+
+        <p>
+          <em>Stand: {new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' })}</em>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .legal-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .legal-content h1 {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .legal-content h2 {
+    margin-top: var(--spacing-2xl);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .legal-content h3 {
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-lg);
+  }
+
+  .legal-content p {
+    margin-bottom: var(--spacing-md);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .legal-content address {
+    font-style: normal;
+    margin: var(--spacing-md) 0;
+    line-height: var(--line-height-relaxed);
+  }
+
+  .legal-content a {
+    color: var(--color-primary);
+  }
+</style>

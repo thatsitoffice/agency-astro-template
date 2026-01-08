@@ -1,0 +1,12 @@
+# robots.txt für https://example.com
+# Anpassen: Ersetzen Sie example.com durch Ihre tatsächliche Domain
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://example.com/sitemap.xml
+
+# Optional: Spezifische Pfade ausschließen
+# Disallow: /admin/
+# Disallow: /private/

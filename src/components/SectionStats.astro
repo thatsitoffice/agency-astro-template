@@ -1,0 +1,89 @@
+---
+interface Stat {
+  value: string;
+  label: string;
+  description?: string;
+}
+
+interface Props {
+  title?: string;
+  stats: Stat[];
+}
+
+const {
+  title = 'Unsere Erfolge in Zahlen',
+  stats,
+} = Astro.props;
+---
+
+<section class="stats section section-alt" aria-label="Statistiken">
+  <div class="container">
+    {title && (
+      <div class="section-header">
+        <h2>{title}</h2>
+      </div>
+    )}
+    
+    <div class="stats-grid">
+      {stats.map((stat) => (
+        <div class="stat-item">
+          <div class="stat-value">{stat.value}</div>
+          <div class="stat-label">{stat.label}</div>
+          {stat.description && (
+            <p class="stat-description">{stat.description}</p>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-2xl);
+    margin-top: var(--spacing-3xl);
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    background: var(--color-bg);
+    border-radius: var(--border-radius-xl);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-base);
+  }
+
+  .stat-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+  }
+
+  .stat-value {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: var(--spacing-md);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-label {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .stat-description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin: 0;
+    line-height: 1.5;
+  }
+</style>

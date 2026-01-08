@@ -1,0 +1,100 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  variant?: 'primary' | 'secondary';
+}
+
+const {
+  title = 'Bereit für Ihr nächstes Projekt?',
+  subtitle = 'Lassen Sie uns gemeinsam Ihre digitale Vision verwirklichen.',
+  ctaText = 'Jetzt Kontakt aufnehmen',
+  ctaLink = '/kontakt',
+  variant = 'primary',
+} = Astro.props;
+---
+
+<section class={`cta section ${variant === 'secondary' ? 'cta-secondary' : ''}`} aria-label="Call-to-Action">
+  <div class="container">
+    <div class="cta-content">
+      <h2 class="cta-title">{title}</h2>
+      {subtitle && <p class="cta-subtitle">{subtitle}</p>}
+      <a href={ctaLink} class="btn btn-primary btn-large">
+        {ctaText}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background: var(--gradient-primary);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-secondary {
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+  }
+
+  .cta-secondary::before {
+    display: none;
+  }
+
+  .cta-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-title {
+    color: white;
+    margin-bottom: var(--spacing-lg);
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .cta-secondary .cta-title {
+    color: var(--color-text);
+  }
+
+  .cta-subtitle {
+    font-size: clamp(1.125rem, 2vw, 1.25rem);
+    margin-bottom: var(--spacing-2xl);
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.6;
+  }
+
+  .cta-secondary .cta-subtitle {
+    color: var(--color-text-light);
+  }
+
+  .btn-large {
+    padding: 1.125rem 2.5rem;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .cta-secondary .btn-primary {
+    background: var(--gradient-primary);
+  }
+</style>

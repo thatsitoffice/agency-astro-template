@@ -1,0 +1,32 @@
+# Security Headers für Cloudflare Pages
+# Diese Datei wird automatisch von Cloudflare Pages verwendet
+
+# Security Headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# Content Security Policy (Basic - kann erweitert werden)
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com https://api.resend.com;
+
+# Caching für statische Assets
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Caching für Bilder
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML nicht cachen (immer aktuell)
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

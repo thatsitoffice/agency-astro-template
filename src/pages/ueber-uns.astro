@@ -1,0 +1,225 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHero from '../components/SectionHero.astro';
+import SectionCTA from '../components/SectionCTA.astro';
+import SectionProof from '../components/SectionProof.astro';
+import SectionStats from '../components/SectionStats.astro';
+import { site } from '../content/site';
+
+const pageTitle = 'Über uns - ' + site.name;
+const pageDescription = 'Lernen Sie uns kennen. Unsere Mission, unsere Werte und unser Team.';
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath="/ueber-uns"
+>
+  <SectionHero
+    title="Über uns"
+    subtitle="Wir sind ein Team von Designern und Entwicklern, die leidenschaftlich digitale Lösungen schaffen."
+  />
+
+  <section class="section" aria-label="Unsere Mission">
+    <div class="container">
+      <div class="content-block">
+        <h2>Unsere Mission</h2>
+        <p>
+          Wir glauben daran, dass jede Website eine Geschichte erzählen sollte. Unsere Mission ist es, 
+          digitale Erlebnisse zu schaffen, die nicht nur gut aussehen, sondern auch Ergebnisse liefern. 
+          Wir kombinieren kreatives Design mit technischer Exzellenz, um Lösungen zu entwickeln, die 
+          Ihre Ziele erreichen.
+        </p>
+        <p>
+          Seit unserer Gründung haben wir zahlreiche Projekte erfolgreich umgesetzt und dabei immer 
+          den Fokus auf Qualität, Performance und Kundenzufriedenheit gelegt.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" aria-label="Unsere Werte">
+    <div class="container">
+      <div class="section-header">
+        <h2>Unsere Werte</h2>
+      </div>
+      
+      <div class="values-grid">
+        <div class="value-item">
+          <h3>Qualität</h3>
+          <p>Wir setzen auf bewährte Technologien und Best Practices, um qualitativ hochwertige Lösungen zu liefern.</p>
+        </div>
+        
+        <div class="value-item">
+          <h3>Transparenz</h3>
+          <p>Offene Kommunikation und klare Prozesse sind die Basis für erfolgreiche Zusammenarbeit.</p>
+        </div>
+        
+        <div class="value-item">
+          <h3>Innovation</h3>
+          <p>Wir bleiben am Puls der Zeit und setzen auf moderne Technologien und Methoden.</p>
+        </div>
+        
+        <div class="value-item">
+          <h3>Partnerschaft</h3>
+          <p>Wir sehen uns als Partner unserer Kunden und begleiten sie langfristig auf ihrem digitalen Weg.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Unser Team">
+    <div class="container">
+      <div class="section-header">
+        <h2>Unser Team</h2>
+        <p class="section-subtitle">Die Menschen hinter den Projekten</p>
+      </div>
+      
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="team-avatar">
+            <span>👤</span>
+          </div>
+          <h3>Max Mustermann</h3>
+          <p class="team-role">Geschäftsführer & Lead Developer</p>
+          <p class="team-bio">Mit über 10 Jahren Erfahrung in der Webentwicklung bringt Max die technische Expertise ins Team.</p>
+        </div>
+        
+        <div class="team-member">
+          <div class="team-avatar">
+            <span>👤</span>
+          </div>
+          <h3>Maria Schmidt</h3>
+          <p class="team-role">Creative Director</p>
+          <p class="team-bio">Maria verantwortet das Design und sorgt dafür, dass jedes Projekt visuell überzeugt.</p>
+        </div>
+        
+        <div class="team-member">
+          <div class="team-avatar">
+            <span>👤</span>
+          </div>
+          <h3>Thomas Weber</h3>
+          <p class="team-role">SEO & Performance Specialist</p>
+          <p class="team-bio">Thomas optimiert Websites für maximale Performance und beste Suchergebnisse.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Elements -->
+  <SectionStats
+    stats={[
+      { value: '150+', label: 'Erfolgreiche Projekte' },
+      { value: '98%', label: 'Zufriedene Kunden' },
+      { value: '10+', label: 'Jahre Erfahrung' },
+      { value: '45%', label: 'Durchschnittliche Conversion-Steigerung' },
+    ]}
+  />
+
+  <!-- Testimonials -->
+  <SectionProof
+    title="Das sagen unsere Kunden"
+    testimonials={[
+      {
+        quote: 'Professionelle Arbeit, schnelle Umsetzung und immer ein offenes Ohr für unsere Anliegen. Sehr empfehlenswert!',
+        author: 'Max Mustermann',
+        role: 'Geschäftsführer',
+        company: 'Musterfirma GmbH',
+      },
+      {
+        quote: 'Die Zusammenarbeit war von Anfang an sehr angenehm. Das Ergebnis hat unsere Erwartungen übertroffen.',
+        author: 'Maria Schmidt',
+        role: 'Marketing-Leiterin',
+        company: 'Beispiel AG',
+      },
+    ]}
+  />
+
+  <SectionCTA
+    title="Lernen Sie uns kennen"
+    subtitle="Haben Sie Fragen oder möchten Sie mehr über uns erfahren? Wir freuen uns auf Ihre Nachricht."
+    ctaText="Jetzt Kontakt aufnehmen"
+    ctaLink="/kontakt"
+  />
+</BaseLayout>
+
+<style>
+  .content-block {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .content-block h2 {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .content-block p {
+    margin-bottom: var(--spacing-md);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-3xl);
+  }
+
+  .value-item {
+    padding: var(--spacing-lg);
+    background-color: var(--color-bg);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border);
+  }
+
+  .value-item h3 {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-primary);
+  }
+
+  .value-item p {
+    margin: 0;
+    color: var(--color-text-light);
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-3xl);
+  }
+
+  .team-member {
+    text-align: center;
+    padding: var(--spacing-lg);
+  }
+
+  .team-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: var(--color-bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-4xl);
+    margin: 0 auto var(--spacing-md);
+  }
+
+  .team-member h3 {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .team-role {
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .team-bio {
+    color: var(--color-text-light);
+    margin: 0;
+    line-height: var(--line-height-relaxed);
+  }
+</style>

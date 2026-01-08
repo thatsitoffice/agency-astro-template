@@ -1,0 +1,105 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title?: string;
+  items: FAQItem[];
+}
+
+const {
+  title = 'Häufig gestellte Fragen',
+  items,
+} = Astro.props;
+---
+
+<section class="faq section" aria-label="FAQ-Bereich">
+  <div class="container">
+    {title && (
+      <div class="section-header">
+        <h2>{title}</h2>
+      </div>
+    )}
+    
+    <div class="faq-list">
+      {items.map((item, index) => (
+        <details class="faq-item">
+          <summary class="faq-question">
+            {item.question}
+          </summary>
+          <div class="faq-answer">
+            <p>{item.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--spacing-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+  }
+
+  .faq-item:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+  }
+
+  .faq-question {
+    padding: var(--spacing-xl);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    list-style: none;
+    position: relative;
+    padding-right: var(--spacing-3xl);
+    transition: background-color var(--transition-fast);
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    position: absolute;
+    right: var(--spacing-lg);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary);
+    transition: transform var(--transition-base);
+  }
+
+  .faq-item[open] .faq-question::after {
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .faq-question:hover {
+    background-color: var(--color-bg-alt);
+  }
+
+  .faq-answer {
+    padding: 0 var(--spacing-xl) var(--spacing-xl);
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  .faq-answer p {
+    margin: 0;
+  }
+</style>

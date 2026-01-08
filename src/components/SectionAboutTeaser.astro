@@ -1,0 +1,48 @@
+---
+interface Props {
+  title?: string;
+  description: string;
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+const {
+  title = 'Über uns',
+  description,
+  ctaText = 'Mehr erfahren',
+  ctaLink = '/ueber-uns',
+} = Astro.props;
+---
+
+<section class="about-teaser section" aria-label="Über uns Teaser">
+  <div class="container">
+    <div class="about-teaser-content">
+      <div class="about-teaser-text">
+        <h2>{title}</h2>
+        <p>{description}</p>
+        <a href={ctaLink} class="btn btn-primary">
+          {ctaText}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-teaser-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .about-teaser-text h2 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .about-teaser-text p {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--spacing-xl);
+    color: var(--color-text-light);
+  }
+</style>

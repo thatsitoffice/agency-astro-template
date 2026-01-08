@@ -1,0 +1,234 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHero from '../../components/SectionHero.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../../content/site';
+
+const pageTitle = 'News - ' + site.name;
+const pageDescription = 'Aktuelle News, Insights und Artikel rund um Webdesign, SEO, Marketing und digitale Trends.';
+
+// Lade alle News
+const allNews = await getCollection('news');
+const news = allNews.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Kategorien extrahieren
+const categories = [...new Set(news.map(n => n.data.category).filter(Boolean))];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath="/news"
+>
+  <SectionHero
+    title="News & Insights"
+    subtitle="Aktuelle Artikel, Trends und Einblicke rund um Webdesign, SEO, Marketing und digitale Strategien."
+  />
+
+  <section class="section" aria-label="News-Übersicht">
+    <div class="container">
+      {categories.length > 0 && (
+        <div class="news-filter">
+          <button class="filter-btn active" data-filter="all">Alle</button>
+          {categories.map((category) => (
+            <button class="filter-btn" data-filter={category}>{category}</button>
+          ))}
+        </div>
+      )}
+
+      <div class="news-grid" id="news-grid">
+        {news.map((article) => (
+          <article class="news-card" data-category={article.data.category || ''}>
+            {article.data.cover && (
+              <div class="news-image">
+                <img src={article.data.cover} alt={article.data.title} loading="lazy" />
+              </div>
+            )}
+            <div class="news-content">
+              {article.data.category && (
+                <span class="news-category">{article.data.category}</span>
+              )}
+              <h3>
+                <a href={`/news/${article.slug}`}>{article.data.title}</a>
+              </h3>
+              <p class="news-excerpt">{article.data.excerpt || article.data.description}</p>
+              <div class="news-meta">
+                <time datetime={article.data.date.toISOString()}>
+                  {article.data.date.toLocaleDateString('de-DE', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </time>
+                {article.data.author && (
+                  <span class="news-author">von {article.data.author}</span>
+                )}
+              </div>
+              {article.data.tags && article.data.tags.length > 0 && (
+                <div class="news-tags">
+                  {article.data.tags.slice(0, 3).map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+              <a href={`/news/${article.slug}`} class="news-link">
+                Artikel lesen →
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .news-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-3xl);
+    justify-content: center;
+  }
+
+  .filter-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+  }
+
+  .filter-btn:hover {
+    background-color: var(--color-bg-alt);
+    border-color: var(--color-primary);
+  }
+
+  .filter-btn.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-xl);
+  }
+
+  .news-card {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .news-card.hidden {
+    display: none;
+  }
+
+  .news-image {
+    width: 100%;
+    height: 200px;
+    background-color: var(--color-bg-alt);
+    overflow: hidden;
+  }
+
+  .news-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .news-content {
+    padding: var(--spacing-lg);
+  }
+
+  .news-category {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .news-content h3 {
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-xl);
+  }
+
+  .news-content h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .news-content h3 a:hover {
+    color: var(--color-primary);
+  }
+
+  .news-excerpt {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .news-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .news-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .news-link {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
+  .news-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+  // Filter-Funktionalität
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const newsCards = document.querySelectorAll('.news-card');
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach((btn) => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+
+        newsCards.forEach((card) => {
+          const category = card.getAttribute('data-category');
+          if (filter === 'all' || category === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  });
+</script>

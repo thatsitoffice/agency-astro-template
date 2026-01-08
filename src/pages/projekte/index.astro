@@ -1,0 +1,235 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHero from '../../components/SectionHero.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../../content/site';
+
+const pageTitle = 'Projekte - ' + site.name;
+const pageDescription = 'Eine Auswahl unserer erfolgreichen Projekte. Hier finden Sie Case Studies und Referenzen unserer Arbeit.';
+
+// Lade alle Projekte
+const allProjects = await getCollection('projects');
+const projects = allProjects.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Kategorien extrahieren
+const categories = [...new Set(projects.map(p => p.data.category).filter(Boolean))];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath="/projekte"
+>
+  <SectionHero
+    title="Unsere Projekte"
+    subtitle="Erfolgreiche Projekte und zufriedene Kunden – hier finden Sie eine Auswahl unserer Arbeit."
+  />
+
+  <section class="section" aria-label="Projektübersicht">
+    <div class="container">
+      {categories.length > 0 && (
+        <div class="projects-filter">
+          <button class="filter-btn active" data-filter="all">Alle</button>
+          {categories.map((category) => (
+            <button class="filter-btn" data-filter={category}>{category}</button>
+          ))}
+        </div>
+      )}
+
+      <div class="projects-grid" id="projects-grid">
+        {projects.map((project) => (
+          <article class="project-card" data-category={project.data.category || ''}>
+            {project.data.cover && (
+              <div class="project-image">
+                <img src={project.data.cover} alt={project.data.title} loading="lazy" />
+              </div>
+            )}
+            <div class="project-content">
+              {project.data.category && (
+                <span class="project-category">{project.data.category}</span>
+              )}
+              <h3>
+                <a href={`/projekte/${project.slug}`}>{project.data.title}</a>
+              </h3>
+              <p class="project-excerpt">{project.data.excerpt || project.data.description}</p>
+              {project.data.client && (
+                <p class="project-client">Kunde: {project.data.client}</p>
+              )}
+              {project.data.tags && project.data.tags.length > 0 && (
+                <div class="project-tags">
+                  {project.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+              <a href={`/projekte/${project.slug}`} class="project-link">
+                Projekt ansehen →
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .projects-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-3xl);
+    justify-content: center;
+  }
+
+  .filter-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+  }
+
+  .filter-btn:hover {
+    background-color: var(--color-bg-alt);
+    border-color: var(--color-primary);
+  }
+
+  .filter-btn.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-xl);
+  }
+
+  .project-card {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    display: block;
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .project-card.hidden {
+    display: none;
+  }
+
+  .project-image {
+    width: 100%;
+    height: 250px;
+    background-color: var(--color-bg-alt);
+    overflow: hidden;
+  }
+
+  .project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .project-content {
+    padding: var(--spacing-lg);
+  }
+
+  .project-category {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .project-content h3 {
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-xl);
+  }
+
+  .project-content h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .project-content h3 a:hover {
+    color: var(--color-primary);
+  }
+
+  .project-excerpt {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-sm);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .project-client {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .tag {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-light);
+  }
+
+  .project-link {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
+  .project-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+  // Filter-Funktionalität
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        // Active State
+        filterButtons.forEach((btn) => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+
+        // Filter Projects
+        projectCards.forEach((card) => {
+          const category = card.getAttribute('data-category');
+          if (filter === 'all' || category === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  });
+</script>

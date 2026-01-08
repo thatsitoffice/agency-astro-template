@@ -1,0 +1,183 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  title?: string;
+  limit?: number;
+}
+
+const {
+  title = 'Aktuelle News',
+  limit = 3,
+} = Astro.props;
+
+// Lade die neuesten News
+const allNews = await getCollection('news');
+const news = allNews
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, limit);
+---
+
+<section class="blog-teaser section" aria-label="News Teaser">
+  <div class="container">
+    {title && (
+      <div class="section-header">
+        <h2>{title}</h2>
+        <a href="/news" class="section-link">Alle News ansehen →</a>
+      </div>
+    )}
+    
+    <div class="blog-grid">
+      {news.map((article) => (
+        <article class="blog-card">
+          {article.data.cover && (
+            <div class="blog-image">
+              <img src={article.data.cover} alt={article.data.title} loading="lazy" />
+            </div>
+          )}
+          <div class="blog-content">
+            {article.data.category && (
+              <span class="blog-category">{article.data.category}</span>
+            )}
+            <h3>
+              <a href={`/news/${article.slug}`}>{article.data.title}</a>
+            </h3>
+            <p class="blog-excerpt">{article.data.excerpt || article.data.description}</p>
+            <div class="blog-meta">
+              <time datetime={article.data.date.toISOString()}>
+                {article.data.date.toLocaleDateString('de-DE', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </time>
+              {article.data.author && (
+                <span class="blog-author">von {article.data.author}</span>
+              )}
+            </div>
+            <a href={`/news/${article.slug}`} class="blog-link">
+              Artikel lesen →
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: var(--spacing-2xl);
+  }
+
+  .blog-card {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-xl);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .blog-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--color-primary);
+  }
+
+  .blog-image {
+    width: 100%;
+    height: 220px;
+    background-color: var(--color-bg-alt);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .blog-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+
+  .blog-card:hover .blog-image::after {
+    opacity: 1;
+  }
+
+  .blog-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .blog-card:hover .blog-image img {
+    transform: scale(1.05);
+  }
+
+  .blog-content {
+    padding: var(--spacing-2xl);
+  }
+
+  .blog-category {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    color: var(--color-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: rgba(0, 102, 255, 0.1);
+    border-radius: var(--border-radius-sm);
+  }
+
+  .blog-content h3 {
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .blog-content h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .blog-content h3 a:hover {
+    color: var(--color-primary);
+  }
+
+  .blog-excerpt {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.7;
+    font-size: var(--font-size-base);
+  }
+
+  .blog-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .blog-link {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
+  .blog-link:hover {
+    text-decoration: underline;
+  }
+</style>

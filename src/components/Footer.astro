@@ -1,0 +1,187 @@
+---
+import { footerNavigation } from '../content/navigation';
+import { site } from '../content/site';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>{site.name}</h3>
+        <p>{site.tagline || 'Professionelle digitale Lösungen'}</p>
+        {site.socials && (
+          <ul class="footer-socials" role="list">
+            {site.socials.linkedin && (
+              <li>
+                <a href={site.socials.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                  LinkedIn
+                </a>
+              </li>
+            )}
+            {site.socials.twitter && (
+              <li>
+                <a href={site.socials.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                  Twitter
+                </a>
+              </li>
+            )}
+            {site.socials.instagram && (
+              <li>
+                <a href={site.socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                  Instagram
+                </a>
+              </li>
+            )}
+          </ul>
+        )}
+      </div>
+      
+      <div class="footer-section">
+        <h4>Navigation</h4>
+        <ul class="footer-links" role="list">
+          {footerNavigation.main.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Rechtliches</h4>
+        <ul class="footer-links" role="list">
+          {footerNavigation.legal.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      {site.organization.contact && (
+        <div class="footer-section">
+          <h4>Kontakt</h4>
+          <address>
+            {site.organization.contact.email && (
+              <p>
+                <a href={`mailto:${site.organization.contact.email}`}>
+                  {site.organization.contact.email}
+                </a>
+              </p>
+            )}
+            {site.organization.contact.phone && (
+              <p>
+                <a href={`tel:${site.organization.contact.phone}`}>
+                  {site.organization.contact.phone}
+                </a>
+              </p>
+            )}
+          </address>
+        </div>
+      )}
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; {currentYear} {site.organization.name || site.name}. Alle Rechte vorbehalten.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-light);
+    padding: var(--spacing-3xl) 0 var(--spacing-lg);
+    margin-top: auto;
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-2xl);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .footer-section h3,
+  .footer-section h4 {
+    color: var(--color-bg);
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+  }
+
+  .footer-section p {
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .footer-links a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    font-size: var(--font-size-sm);
+  }
+
+  .footer-links a:hover {
+    color: var(--color-bg);
+    text-decoration: none;
+    padding-left: var(--spacing-xs);
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: var(--spacing-md);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-socials a {
+    color: var(--color-text-light);
+    text-decoration: none;
+  }
+
+  .footer-socials a:hover {
+    color: var(--color-bg);
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: var(--spacing-lg);
+    text-align: center;
+  }
+
+  .footer-bottom p {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    margin: 0;
+  }
+
+  address {
+    font-style: normal;
+  }
+
+  address p {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  address a {
+    color: var(--color-text-light);
+  }
+
+  address a:hover {
+    color: var(--color-bg);
+  }
+</style>

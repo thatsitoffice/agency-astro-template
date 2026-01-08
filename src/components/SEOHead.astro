@@ -1,0 +1,103 @@
+---
+import { site } from '../content/site';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalPath = '',
+  ogImage = site.defaultSEO.image || '/og-default.jpg',
+  noindex = false,
+} = Astro.props;
+
+// Canonical URL erstellen
+const canonicalUrl = `${site.domain}${canonicalPath || Astro.url.pathname}`;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${site.domain}${ogImage}`;
+
+// JSON-LD für Organization (wird auf Startseite verwendet)
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.organization.name,
+  url: site.organization.url,
+  logo: site.organization.logo ? `${site.domain}${site.organization.logo}` : undefined,
+  contactPoint: site.organization.contact ? {
+    '@type': 'ContactPoint',
+    email: site.organization.contact.email,
+    telephone: site.organization.contact.phone,
+    contactType: 'customer service',
+  } : undefined,
+  address: site.organization.address ? {
+    '@type': 'PostalAddress',
+    streetAddress: site.organization.address.street,
+    addressLocality: site.organization.address.city,
+    postalCode: site.organization.address.postalCode,
+    addressCountry: site.organization.address.country,
+  } : undefined,
+  sameAs: site.socials ? Object.values(site.socials).filter(Boolean) : undefined,
+};
+
+// JSON-LD für LocalBusiness (optional, falls gewünscht)
+const localBusinessJsonLd = site.organization.address ? {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${site.domain}#organization`,
+  name: site.organization.name,
+  image: site.organization.logo ? `${site.domain}${site.organization.logo}` : undefined,
+  url: site.organization.url,
+  telephone: site.organization.contact?.phone,
+  email: site.organization.contact?.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.organization.address.street,
+    addressLocality: site.organization.address.city,
+    postalCode: site.organization.address.postalCode,
+    addressCountry: site.organization.address.country,
+  },
+} : null;
+---
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:site_name" content={site.name} />
+{site.socials?.facebook && <meta property="article:author" content={site.socials.facebook} />}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+{site.socials?.twitter && <meta name="twitter:site" content={site.socials.twitter} />}
+
+<!-- Additional Meta -->
+<meta name="theme-color" content="#2563eb" />
+<meta name="format-detection" content="telephone=no" />
+
+<!-- JSON-LD: Organization (immer vorhanden) -->
+<script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+
+<!-- JSON-LD: LocalBusiness (nur wenn Adresse vorhanden) -->
+{localBusinessJsonLd && (
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessJsonLd)} />
+)}

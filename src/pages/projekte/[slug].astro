@@ -1,0 +1,283 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionCTA from '../../components/SectionCTA.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../../content/site';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: any;
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+
+const pageTitle = `${project.data.title} - Projekte - ${site.name}`;
+const pageDescription = project.data.excerpt || project.data.description;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath={`/projekte/${project.slug}`}
+  ogImage={project.data.cover}
+>
+  <article class="project-detail">
+    <div class="container">
+      <!-- Header -->
+      <header class="project-header">
+        {project.data.category && (
+          <span class="project-category">{project.data.category}</span>
+        )}
+        <h1>{project.data.title}</h1>
+        <p class="project-description">{project.data.description}</p>
+        
+        <div class="project-meta">
+          {project.data.client && (
+            <div class="meta-item">
+              <strong>Kunde:</strong> {project.data.client}
+            </div>
+          )}
+          <div class="meta-item">
+            <strong>Datum:</strong> {project.data.date.toLocaleDateString('de-DE', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </div>
+          {project.data.tags && project.data.tags.length > 0 && (
+            <div class="meta-tags">
+              {project.data.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+
+      {project.data.cover && (
+        <div class="project-cover">
+          <img src={project.data.cover} alt={project.data.title} loading="eager" />
+        </div>
+      )}
+
+      <!-- Case Study Sections -->
+      <div class="project-content">
+        {project.data.goal && (
+          <section class="case-section">
+            <h2>Ziel</h2>
+            <p>{project.data.goal}</p>
+          </section>
+        )}
+
+        {project.data.challenge && (
+          <section class="case-section">
+            <h2>Herausforderung</h2>
+            <p>{project.data.challenge}</p>
+          </section>
+        )}
+
+        {project.data.solution && (
+          <section class="case-section">
+            <h2>Lösung</h2>
+            <p>{project.data.solution}</p>
+          </section>
+        )}
+
+        {project.data.process && (
+          <section class="case-section">
+            <h2>Prozess</h2>
+            <p>{project.data.process}</p>
+          </section>
+        )}
+
+        {project.data.results && (
+          <section class="case-section">
+            <h2>Ergebnisse</h2>
+            <p>{project.data.results}</p>
+          </section>
+        )}
+
+        {project.data.tech && project.data.tech.length > 0 && (
+          <section class="case-section">
+            <h2>Technologien & Tools</h2>
+            <ul class="tech-list">
+              {project.data.tech.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {project.data.testimonial && (
+          <section class="case-section testimonial-section">
+            <blockquote class="testimonial">
+              <p>"{project.data.testimonial.quote}"</p>
+              <footer>
+                <strong>{project.data.testimonial.author}</strong>
+                {project.data.testimonial.role && (
+                  <span>, {project.data.testimonial.role}</span>
+                )}
+              </footer>
+            </blockquote>
+          </section>
+        )}
+
+        <!-- Content -->
+        <div class="case-section">
+          <Content />
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="project-nav">
+        <a href="/projekte" class="btn">← Zurück zu allen Projekten</a>
+      </nav>
+    </div>
+  </article>
+
+  <SectionCTA
+    title="Haben Sie ein ähnliches Projekt?"
+    subtitle="Lassen Sie uns gemeinsam Ihre Idee verwirklichen."
+    ctaText="Projekt anfragen"
+    ctaLink="/kontakt"
+  />
+</BaseLayout>
+
+<style>
+  .project-detail {
+    padding: var(--spacing-4xl) 0;
+  }
+
+  .project-header {
+    max-width: 800px;
+    margin: 0 auto var(--spacing-3xl);
+    text-align: center;
+  }
+
+  .project-category {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .project-header h1 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .project-description {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-xl);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+    justify-content: center;
+    align-items: center;
+    margin-top: var(--spacing-lg);
+  }
+
+  .meta-item {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+  }
+
+  .meta-item strong {
+    color: var(--color-text);
+  }
+
+  .meta-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .project-cover {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto var(--spacing-3xl);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+  }
+
+  .project-cover img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .project-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .case-section {
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .case-section h2 {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-primary);
+  }
+
+  .case-section p {
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text-light);
+  }
+
+  .tech-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .tech-list li {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text);
+  }
+
+  .testimonial-section {
+    background-color: var(--color-bg-alt);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-lg);
+    border-left: 4px solid var(--color-primary);
+  }
+
+  .testimonial {
+    margin: 0;
+  }
+
+  .testimonial p {
+    font-size: var(--font-size-lg);
+    font-style: italic;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text);
+  }
+
+  .testimonial footer {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+  }
+
+  .project-nav {
+    margin-top: var(--spacing-3xl);
+    text-align: center;
+  }
+</style>

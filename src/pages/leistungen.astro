@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHero from '../components/SectionHero.astro';
+import SectionFeatures from '../components/SectionFeatures.astro';
+import SectionCTA from '../components/SectionCTA.astro';
+import ServiceDetail from '../components/ServiceDetail.astro';
+import { site } from '../content/site';
+
+const pageTitle = 'Leistungen - ' + site.name;
+const pageDescription = 'Unsere Leistungen im Bereich Webdesign, Entwicklung, SEO und digitale Strategie.';
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath="/leistungen"
+>
+  <SectionHero
+    title="Unsere Leistungen"
+    subtitle="Von der ersten Idee bis zur erfolgreichen Umsetzung – wir begleiten Sie durch den gesamten digitalen Prozess."
+  />
+
+  <section class="section" aria-label="Leistungsübersicht">
+    <div class="container">
+      <SectionFeatures
+        features={[
+          {
+            title: 'Webdesign & Entwicklung',
+            description: 'Wir erstellen moderne, responsive Websites, die auf allen Geräten perfekt funktionieren. Unser Fokus liegt auf Performance, Usability und einer überzeugenden User Experience.',
+            icon: '🌐',
+          },
+          {
+            title: 'SEO & Performance-Optimierung',
+            description: 'Ihre Website soll gefunden werden. Wir optimieren für Suchmaschinen und sorgen für maximale Performance, damit Ihre Seiten schnell laden und gut ranken.',
+            icon: '🚀',
+          },
+          {
+            title: 'Content-Strategie & Texte',
+            description: 'Professionelle Inhalte, die Ihre Zielgruppe ansprechen und zu Conversions führen. Von der Strategie bis zur Umsetzung.',
+            icon: '✍️',
+          },
+          {
+            title: 'E-Commerce Lösungen',
+            description: 'Online-Shops, die verkaufen. Wir entwickeln E-Commerce-Lösungen, die Ihre Produkte optimal präsentieren und den Kaufprozess optimieren.',
+            icon: '🛒',
+          },
+          {
+            title: 'Branding & Corporate Design',
+            description: 'Ein starkes Branding ist die Basis für erfolgreiche digitale Auftritte. Wir entwickeln Markenidentitäten, die überzeugen.',
+            icon: '🎨',
+          },
+          {
+            title: 'Beratung & Strategie',
+            description: 'Langfristige Betreuung und strategische Beratung für nachhaltigen Erfolg. Wir denken mit Ihnen und entwickeln Lösungen, die zu Ihrem Unternehmen passen.',
+            icon: '💡',
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="section section-alt" aria-label="Unser Prozess">
+    <div class="container">
+      <div class="section-header">
+        <h2>Unser Prozess</h2>
+        <p class="section-subtitle">Von der ersten Idee bis zur erfolgreichen Umsetzung</p>
+      </div>
+      
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="process-number">1</div>
+          <h3>Beratung & Konzept</h3>
+          <p>Wir analysieren Ihre Anforderungen und entwickeln gemeinsam ein Konzept, das zu Ihren Zielen passt.</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="process-number">2</div>
+          <h3>Design & Entwicklung</h3>
+          <p>Basierend auf dem Konzept erstellen wir Designs und setzen diese in hochwertigen Code um.</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="process-number">3</div>
+          <h3>Testing & Optimierung</h3>
+          <p>Bevor wir live gehen, testen wir alles gründlich und optimieren Performance und SEO.</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="process-number">4</div>
+          <h3>Launch & Support</h3>
+          <p>Nach dem Launch stehen wir Ihnen mit Support und Wartung zur Seite für langfristigen Erfolg.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detaillierte Leistungsbeschreibungen -->
+  <section class="section" aria-label="Leistungsdetails">
+    <div class="container">
+      <div class="section-header">
+        <h2>Unsere Leistungen im Detail</h2>
+        <p class="section-subtitle">Erfahren Sie mehr über unsere Services und wie wir Ihnen helfen können</p>
+      </div>
+
+      <ServiceDetail
+        service={{
+          title: 'Webdesign & Entwicklung',
+          description: 'Moderne, responsive Websites, die auf allen Geräten perfekt funktionieren.',
+          icon: '🌐',
+          problem: 'Veraltete Websites, die nicht mehr zeitgemäß sind, schlechte mobile Erfahrung und niedrige Conversion-Raten.',
+          solution: 'Wir entwickeln moderne, responsive Websites mit Fokus auf Performance, Usability und Conversion-Optimierung. Unsere Lösungen sind skalierbar, wartbar und zukunftssicher.',
+          deliverables: [
+            'Responsive Website-Design',
+            'Moderne Frontend-Entwicklung',
+            'Performance-Optimierung',
+            'Mobile-First Ansatz',
+            'Cross-Browser Kompatibilität',
+            'Dokumentation & Handover'
+          ],
+          process: [
+            'Analyse Ihrer Anforderungen und Zielgruppe',
+            'Konzeption und Wireframing',
+            'Design-Entwicklung und Abstimmung',
+            'Frontend-Entwicklung mit modernen Technologien',
+            'Testing und Optimierung',
+            'Launch und Support'
+          ],
+          faq: [
+            {
+              question: 'Welche Technologien verwenden Sie?',
+              answer: 'Wir setzen auf moderne, bewährte Technologien wie Astro, TypeScript, React und Vue.js. Die Wahl hängt von den Anforderungen Ihres Projekts ab.'
+            },
+            {
+              question: 'Wie lange dauert die Entwicklung?',
+              answer: 'Die Dauer hängt vom Umfang ab. Eine einfache Website kann in 2-4 Wochen fertiggestellt werden, komplexere Projekte benötigen 2-3 Monate.'
+            }
+          ]
+        }}
+      />
+
+      <ServiceDetail
+        service={{
+          title: 'SEO & Performance-Optimierung',
+          description: 'Ihre Website soll gefunden werden und schnell laden.',
+          icon: '🚀',
+          problem: 'Niedrige Rankings in Suchmaschinen, langsame Ladezeiten und schlechte User Experience führen zu verlorenen Besuchern und Conversions.',
+          solution: 'Wir optimieren Ihre Website für Suchmaschinen und maximale Performance. Durch technische SEO, Content-Optimierung und Performance-Tuning erreichen wir bessere Rankings und schnellere Ladezeiten.',
+          deliverables: [
+            'SEO-Audit und Analyse',
+            'Technische SEO-Optimierung',
+            'Content-Optimierung',
+            'Performance-Optimierung',
+            'Structured Data (Schema.org)',
+            'SEO-Reporting und Monitoring'
+          ],
+          process: [
+            'Umfassende SEO-Analyse',
+            'Identifikation von Optimierungspotenzialen',
+            'Technische Implementierung',
+            'Content-Optimierung',
+            'Monitoring und kontinuierliche Verbesserung'
+          ]
+        }}
+      />
+
+      <ServiceDetail
+        service={{
+          title: 'E-Commerce Lösungen',
+          description: 'Online-Shops, die verkaufen und Ihre Produkte optimal präsentieren.',
+          icon: '🛒',
+          problem: 'Komplexe Checkout-Prozesse, schlechte Produktpräsentation und niedrige Conversion-Raten führen zu verlorenen Verkäufen.',
+          solution: 'Wir entwickeln benutzerfreundliche E-Commerce-Plattformen mit optimiertem Checkout, mehreren Payment-Optionen und einer intuitiven Produktpräsentation.',
+          deliverables: [
+            'E-Commerce-Platform',
+            'Produktkatalog-Management',
+            'Checkout-Optimierung',
+            'Payment-Integration',
+            'Warenkorb-Funktionalität',
+            'Admin-Dashboard'
+          ],
+          process: [
+            'Anforderungsanalyse und Konzeption',
+            'Shop-Design und User Experience',
+            'Entwicklung und Integration',
+            'Payment-System Integration',
+            'Testing und Optimierung',
+            'Launch und Schulung'
+          ]
+        }}
+      />
+    </div>
+  </section>
+
+  <SectionCTA
+    title="Interesse an unseren Leistungen?"
+    subtitle="Lassen Sie uns gemeinsam Ihr Projekt besprechen."
+    ctaText="Kostenloses Erstgespräch sichern"
+    ctaLink="/kontakt"
+  />
+</BaseLayout>
+
+<style>
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-3xl);
+  }
+
+  .process-step {
+    text-align: center;
+    padding: var(--spacing-xl);
+  }
+
+  .process-number {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0 auto var(--spacing-md);
+  }
+
+  .process-step h3 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .process-step p {
+    color: var(--color-text-light);
+    margin: 0;
+  }
+</style>

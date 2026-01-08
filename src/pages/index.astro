@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHero from '../components/SectionHero.astro';
+import SectionFeatures from '../components/SectionFeatures.astro';
+import SectionProof from '../components/SectionProof.astro';
+import SectionCTA from '../components/SectionCTA.astro';
+import SectionFAQ from '../components/SectionFAQ.astro';
+import SectionStats from '../components/SectionStats.astro';
+import SectionPartners from '../components/SectionPartners.astro';
+import SectionAboutTeaser from '../components/SectionAboutTeaser.astro';
+import SectionProjectsTeaser from '../components/SectionProjectsTeaser.astro';
+import SectionBlogTeaser from '../components/SectionBlogTeaser.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../content/site';
+
+const pageTitle = site.defaultSEO.title;
+const pageDescription = site.defaultSEO.description;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath="/"
+  ogImage={site.defaultSEO.image}
+>
+  <!-- Hero Section -->
+  <SectionHero
+    title="Willkommen bei {site.name}"
+    subtitle="Wir gestalten digitale Erlebnisse, die begeistern und Ergebnisse liefern."
+    ctaText="Kostenloses Erstgespräch sichern"
+    ctaLink="/kontakt"
+  />
+
+  <!-- Trust Elements / Stats -->
+  <SectionStats
+    stats={[
+      { value: '150+', label: 'Erfolgreiche Projekte', description: 'Seit unserer Gründung' },
+      { value: '98%', label: 'Zufriedene Kunden', description: 'Langfristige Partnerschaften' },
+      { value: '45%', label: 'Durchschnittliche Conversion-Steigerung', description: 'Bei unseren Projekten' },
+      { value: '10+', label: 'Jahre Erfahrung', description: 'Im digitalen Marketing' },
+    ]}
+  />
+
+  <!-- Leistungen Teaser -->
+  <SectionFeatures
+    title="Unsere Leistungen"
+    subtitle="Von der Strategie bis zur Umsetzung – wir begleiten Sie durch den gesamten digitalen Prozess."
+    features={[
+      {
+        title: 'Webdesign & Entwicklung',
+        description: 'Moderne, responsive Websites, die auf allen Geräten perfekt funktionieren und Ihre Marke optimal präsentieren.',
+        icon: '🌐',
+      },
+      {
+        title: 'SEO & Performance',
+        description: 'Optimierung für Suchmaschinen und maximale Performance, damit Ihre Website schnell gefunden wird.',
+        icon: '🚀',
+      },
+      {
+        title: 'Content-Strategie',
+        description: 'Professionelle Inhalte, die Ihre Zielgruppe ansprechen und zu Conversions führen.',
+        icon: '✍️',
+      },
+      {
+        title: 'E-Commerce Lösungen',
+        description: 'Online-Shops, die verkaufen. Wir entwickeln E-Commerce-Lösungen, die Ihre Produkte optimal präsentieren.',
+        icon: '🛒',
+      },
+      {
+        title: 'Branding & Design',
+        description: 'Ein starkes Branding ist die Basis für erfolgreiche digitale Auftritte. Wir entwickeln Markenidentitäten, die überzeugen.',
+        icon: '🎨',
+      },
+      {
+        title: 'Beratung & Support',
+        description: 'Langfristige Betreuung und strategische Beratung für nachhaltigen Erfolg.',
+        icon: '💡',
+      },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="cta-inline">
+        <p>Sie möchten mehr über unsere Leistungen erfahren?</p>
+        <a href="/leistungen" class="btn btn-primary">Alle Leistungen ansehen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Über uns Teaser -->
+  <SectionAboutTeaser
+    description="Wir sind ein Team von Designern und Entwicklern, die leidenschaftlich digitale Lösungen schaffen. Seit über 10 Jahren begleiten wir Unternehmen auf ihrem digitalen Weg und helfen ihnen, online erfolgreich zu sein."
+    ctaText="Mehr über uns erfahren"
+    ctaLink="/ueber-uns"
+  />
+
+  <!-- Projekte Teaser -->
+  <SectionProjectsTeaser
+    title="Unsere Projekte"
+    limit={3}
+  />
+
+  <!-- Partner / Kooperationen -->
+  <SectionPartners
+    title="Unsere Partner & Kooperationen"
+    partners={[
+      { name: 'Partner 1' },
+      { name: 'Partner 2' },
+      { name: 'Partner 3' },
+      { name: 'Partner 4' },
+      { name: 'Partner 5' },
+      { name: 'Partner 6' },
+    ]}
+  />
+
+  <!-- Testimonials -->
+  <SectionProof
+    title="Das sagen unsere Kunden"
+    testimonials={[
+      {
+        quote: 'Professionelle Arbeit, schnelle Umsetzung und immer ein offenes Ohr für unsere Anliegen. Sehr empfehlenswert!',
+        author: 'Max Mustermann',
+        role: 'Geschäftsführer',
+        company: 'Musterfirma GmbH',
+      },
+      {
+        quote: 'Die Zusammenarbeit war von Anfang an sehr angenehm. Das Ergebnis hat unsere Erwartungen übertroffen.',
+        author: 'Maria Schmidt',
+        role: 'Marketing-Leiterin',
+        company: 'Beispiel AG',
+      },
+      {
+        quote: 'Die neue Website hat unseren Online-Umsatz deutlich gesteigert. Wir sind sehr zufrieden mit dem Ergebnis.',
+        author: 'Thomas Weber',
+        role: 'E-Commerce Manager',
+        company: 'Fashion Brand AG',
+      },
+    ]}
+  />
+
+  <!-- News/Blog Teaser -->
+  <SectionBlogTeaser
+    title="Aktuelle News & Insights"
+    limit={3}
+  />
+
+  <!-- FAQ -->
+  <SectionFAQ
+    title="Häufig gestellte Fragen"
+    items={[
+      {
+        question: 'Wie lange dauert die Entwicklung einer Website?',
+        answer: 'Die Dauer hängt vom Umfang des Projekts ab. Eine einfache Website kann in 2-4 Wochen fertiggestellt werden, während komplexere Projekte 2-3 Monate in Anspruch nehmen können. Wir besprechen die Zeitschiene gerne individuell mit Ihnen.',
+      },
+      {
+        question: 'Welche Technologien verwenden Sie?',
+        answer: 'Wir setzen auf moderne, bewährte Technologien wie Astro, TypeScript und Cloudflare. Unser Fokus liegt auf Performance, SEO und Wartbarkeit.',
+      },
+      {
+        question: 'Bieten Sie auch Wartung und Support an?',
+        answer: 'Ja, wir bieten langfristige Betreuung, Updates und Support für alle unsere Projekte. Sprechen Sie uns gerne auf ein individuelles Support-Paket an.',
+      },
+      {
+        question: 'Wie funktioniert die Zusammenarbeit?',
+        answer: 'Wir starten mit einem unverbindlichen Beratungsgespräch, in dem wir Ihre Anforderungen besprechen. Anschließend erstellen wir ein detailliertes Angebot und stimmen die nächsten Schritte mit Ihnen ab.',
+      },
+    ]}
+  />
+
+  <!-- Kontakt CTA mit Formular -->
+  <section class="section section-alt" aria-label="Kontakt">
+    <div class="container">
+      <div class="contact-section">
+        <div class="contact-header">
+          <h2>Kostenloses Erstgespräch sichern</h2>
+          <p>Haben Sie Fragen oder ein Projekt im Kopf? Wir freuen uns auf Ihre Nachricht und beraten Sie gerne zu Ihrem Vorhaben.</p>
+        </div>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <SectionCTA
+    title="Bereit für Ihr nächstes Projekt?"
+    subtitle="Lassen Sie uns gemeinsam Ihre digitale Vision verwirklichen."
+    ctaText="Jetzt Projekt anfragen"
+    ctaLink="/kontakt"
+  />
+</BaseLayout>

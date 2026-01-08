@@ -1,0 +1,166 @@
+---
+import { mainNavigation } from '../content/navigation';
+import { site } from '../content/site';
+
+// Aktuelle URL ermitteln
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header" role="banner">
+  <div class="container">
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="/" class="nav-logo" aria-label={`${site.name} - Startseite`}>
+        {site.name}
+      </a>
+      
+      <button 
+        class="nav-toggle" 
+        aria-label="Menü öffnen"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        id="nav-toggle"
+      >
+        <span class="sr-only">Menü</span>
+        <span aria-hidden="true">☰</span>
+      </button>
+      
+      <ul class="nav-menu" id="nav-menu" role="list">
+        {mainNavigation.map((item) => {
+          const isActive = currentPath === item.href || 
+                          (item.href !== '/' && currentPath.startsWith(item.href));
+          return (
+            <li>
+              <a
+                href={item.href}
+                class={isActive ? 'nav-link active' : 'nav-link'}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    background-color: rgba(255, 255, 255, 0.98);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 0;
+    gap: var(--spacing-xl);
+  }
+
+  .nav-logo {
+    font-size: var(--font-size-2xl);
+    font-weight: 800;
+    color: var(--color-text);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    transition: color var(--transition-fast);
+  }
+
+  .nav-logo:hover {
+    text-decoration: none;
+    color: var(--color-primary);
+  }
+
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    gap: var(--spacing-sm);
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-base);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-fast);
+  }
+
+  .nav-link:hover,
+  .nav-link:focus {
+    background-color: var(--color-bg-alt);
+    text-decoration: none;
+    color: var(--color-primary);
+  }
+
+  .nav-link.active {
+    color: var(--color-primary);
+    background-color: rgba(0, 102, 255, 0.1);
+    font-weight: 600;
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: var(--font-size-2xl);
+    cursor: pointer;
+    padding: var(--spacing-sm);
+    color: var(--color-text);
+  }
+
+  /* Mobile Navigation */
+  @media (max-width: 768px) {
+    .nav-toggle {
+      display: block;
+    }
+
+    .nav-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: var(--color-bg);
+      flex-direction: column;
+      padding: var(--spacing-md);
+      border-top: 1px solid var(--color-border);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .nav-menu[aria-expanded="true"] {
+      display: flex;
+    }
+
+    .nav-link {
+      display: block;
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  // Mobile Navigation Toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('nav-toggle');
+    const menu = document.getElementById('nav-menu');
+    
+    if (toggle && menu) {
+      toggle.addEventListener('click', () => {
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isExpanded));
+        menu.setAttribute('aria-expanded', String(!isExpanded));
+      });
+    }
+  });
+</script>

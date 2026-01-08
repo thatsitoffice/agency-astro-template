@@ -1,0 +1,16 @@
+# Redirects für Cloudflare Pages
+# Format: /old-path /new-path [status code]
+
+# Standard Redirects
+/home /
+/index.html /
+
+# Trailing Slash Policy (optional)
+# Cloudflare Pages behandelt trailing slashes standardmäßig korrekt
+# Falls gewünscht, können hier weitere Redirects definiert werden
+
+# Beispiel für 301 Redirects (permanent)
+# /alte-seite /neue-seite 301
+
+# Beispiel für 302 Redirects (temporary)
+# /temporaer /andere-seite 302
